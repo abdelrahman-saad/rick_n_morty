@@ -1,29 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rick_n_morty/business_logic/models/character.dart';
+import 'package:rick_n_morty/business_logic/services/graphql.dart';
 import 'package:rick_n_morty/presentation/character_screen.dart';
+import 'package:rick_n_morty/presentation/cubit/character_cubit.dart';
+import 'package:bloc/bloc.dart';
 
 class CharactersListScreen extends StatelessWidget {
-  const CharactersListScreen({Key? key}) : super(key: key);
+  CharactersListScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    BlocProvider.of<CharacterCubit>(context).fetchData();
     return Scaffold(
       appBar: AppBar(
-        title: Text("Rick n' Morty Characters"),
+        title:  const Text("Rick n' Morty Characters"),
       ),
-      body: ListView.builder(
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: const Text('Char 1'),
-            contentPadding:
+        body:
+        BlocBuilder<CharacterCubit,CharacterState>(
+
+        builder: (context, state) {
+          if(state.characters.isEmpty){
+            return const Center(child:  CircularProgressIndicator());
+          }
+          return ListView.builder(
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(state.characters[index].name),
+                contentPadding:
                 const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            leading: const Text('# 1'),
-            onTap: () {
-              Navigator.pushNamed(context, CharacterScreen.route);
+                leading: Text(state.characters[index].id.toString()),
+                onTap: () {
+                  BlocProvider.of<CharacterCubit>(context).updateIndex(index);
+                  Navigator.pushNamed(context, CharacterScreen.route);
+                },
+              );
             },
+            itemCount: state.characters.length,
+            // itemCount: 10,
           );
         },
-        itemCount: 10,
-      ),
+
+      )
     );
   }
 }
