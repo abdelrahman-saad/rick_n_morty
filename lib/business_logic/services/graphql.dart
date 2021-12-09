@@ -1,5 +1,4 @@
 import 'package:graphql/client.dart';
-import 'package:rick_n_morty/business_logic/models/character.dart';
 
 class GraphQLService {
   final GraphQLClient _client = GraphQLClient(

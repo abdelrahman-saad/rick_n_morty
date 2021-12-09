@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rick_n_morty/business_logic/models/character.dart';
-import 'package:rick_n_morty/business_logic/services/graphql.dart';
 import 'package:rick_n_morty/presentation/character_screen.dart';
-import 'package:rick_n_morty/presentation/cubit/character_cubit.dart';
-import 'package:bloc/bloc.dart';
+import 'package:rick_n_morty/business_logic/cubit/character_cubit.dart';
 
 class CharactersListScreen extends StatelessWidget {
-  CharactersListScreen({Key? key}) : super(key: key);
+  const CharactersListScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

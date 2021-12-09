@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rick_n_morty/business_logic/services/graphql.dart';
 import 'package:rick_n_morty/const.dart';
-import 'package:rick_n_morty/presentation/cubit/character_cubit.dart';
+import 'package:rick_n_morty/business_logic/cubit/character_cubit.dart';
 
 class CharacterScreen extends StatelessWidget {
   const CharacterScreen({Key? key}) : super(key: key);
