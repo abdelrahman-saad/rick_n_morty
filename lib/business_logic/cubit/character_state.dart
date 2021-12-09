@@ -1,5 +1,3 @@
-import 'package:rick_n_morty/business_logic/models/character.dart';
-
 part of 'character_cubit.dart';
 
 class CharacterState extends Equatable{

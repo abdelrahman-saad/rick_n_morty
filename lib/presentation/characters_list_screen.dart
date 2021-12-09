@@ -8,38 +8,37 @@ class CharactersListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     BlocProvider.of<CharacterCubit>(context).fetchData();
     return Scaffold(
-      appBar: AppBar(
-        title:  const Text("Rick n' Morty Characters"),
-      ),
+        appBar: AppBar(
+          title: const Text("Rick n' Morty Characters"),
+        ),
         body:
-        BlocBuilder<CharacterCubit,CharacterState>(
+        BlocBuilder<CharacterCubit, CharacterState>(
 
-        builder: (context, state) {
-          if(state.characters.isEmpty){
-            return const Center(child:  CircularProgressIndicator());
-          }
-          return ListView.builder(
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(state.characters[index].name),
-                contentPadding:
-                const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                leading: Text(state.characters[index].id.toString()),
-                onTap: () {
-                  BlocProvider.of<CharacterCubit>(context).updateIndex(index);
-                  Navigator.pushNamed(context, CharacterScreen.route);
-                },
-              );
-            },
-            itemCount: state.characters.length,
-            // itemCount: 10,
-          );
-        },
+          builder: (context, state) {
+            if (state.characters.isEmpty) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            return ListView.builder(
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(state.characters[index].name),
+                  contentPadding:
+                  const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  leading: Text(state.characters[index].id.toString()),
+                  onTap: () {
+                    BlocProvider.of<CharacterCubit>(context).updateIndex(index);
+                    Navigator.pushNamed(context, CharacterScreen.route);
+                  },
+                );
+              },
+              itemCount: state.characters.length,
+              // itemCount: 10,
+            );
+          },
 
-      )
+        )
     );
   }
 }

@@ -1,7 +1,9 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_n_morty/const.dart';
 import 'package:rick_n_morty/business_logic/cubit/character_cubit.dart';
+import 'package:rick_n_morty/main.dart';
 
 class CharacterScreen extends StatelessWidget {
   const CharacterScreen({Key? key}) : super(key: key);
@@ -11,8 +13,8 @@ class CharacterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // GraphQLService().getCharacters();
 
-    return BlocBuilder<CharacterCubit,CharacterState>(
-      builder: (context, state) =>  Scaffold(
+    return BlocBuilder<CharacterCubit, CharacterState>(
+      builder: (context, state) => Scaffold(
           appBar: AppBar(
             leading: GestureDetector(
               child: const Icon(
@@ -23,24 +25,32 @@ class CharacterScreen extends StatelessWidget {
                 Navigator.of(context).pop();
               },
             ),
-            title: BlocBuilder<CharacterCubit,CharacterState>(
-              builder: (context, state) => Text(state.characters[state.index].name),
+            title: BlocBuilder<CharacterCubit, CharacterState>(
+              builder: (context, state) =>
+                  Text(state.characters[state.index].name),
             ),
           ),
           body: Container(
-            padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+            padding:
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
             child: BlocBuilder<CharacterCubit, CharacterState>(
               builder: (context, state) => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.network(state.characters[state.index].imageURL,loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return const Center(
-                      child: Center(child: CircularProgressIndicator()),
-                    );
-                  },
-                    height: MediaQuery.of(context).size.height*0.4,
-                  ),
+                  MyApp.getConnectivity() != ConnectivityResult.none?
+                  Image.network(
+                    state.characters[state.index].imageURL,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return const Center(
+                        child: Center(child: CircularProgressIndicator()),
+                      );
+                    },
+                    height: MediaQuery.of(context).size.height * 0.4,
+
+                  ):
+                  const Text('No Connection Available so no Image Preview')
+                  ,
                   const SizedBox(
                     height: 15.0,
                   ),
