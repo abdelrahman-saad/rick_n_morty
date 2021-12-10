@@ -39,7 +39,7 @@ class GraphQLService {
     //  print(result.data!['results']);
     if(result.data ==null){
       print("null data received");
-      return null;
+      return [];
     }else{
       // print(result.data);
       final json = result.data!['characters']['results'];

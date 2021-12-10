@@ -1,9 +1,9 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rick_n_morty/business_logic/cubit/internet_cubit.dart';
 import 'package:rick_n_morty/const.dart';
 import 'package:rick_n_morty/business_logic/cubit/character_cubit.dart';
-import 'package:rick_n_morty/main.dart';
 
 class CharacterScreen extends StatelessWidget {
   const CharacterScreen({Key? key}) : super(key: key);
@@ -37,20 +37,29 @@ class CharacterScreen extends StatelessWidget {
               builder: (context, state) => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  MyApp.getConnectivity() != ConnectivityResult.none?
-                  Image.network(
-                    state.characters[state.index].imageURL,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return const Center(
-                        child: Center(child: CircularProgressIndicator()),
-                      );
-                    },
-                    height: MediaQuery.of(context).size.height * 0.4,
 
-                  ):
-                  const Text('No Connection Available so no Image Preview')
-                  ,
+                  BlocBuilder<InternetCubit,InternetState>(
+                    builder: (context, state) {
+                      if(state is InternetSuccess){
+                        var cubit = context.read<CharacterCubit>().state;
+                        return Image.network(
+                          cubit.characters[cubit.index].imageURL,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return const Center(
+                              child: Center(child: CircularProgressIndicator()),
+                            );
+                          },
+                          height: MediaQuery.of(context).size.height * 0.4,
+
+                        );
+                      }else{
+                        return const Text('No Preview for the Image Check your Connection');
+                      }
+
+                    },
+
+                  ),
                   const SizedBox(
                     height: 15.0,
                   ),

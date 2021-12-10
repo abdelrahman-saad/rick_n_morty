@@ -1,7 +1,7 @@
-part of 'connection_cubit.dart';
+part of 'internet_cubit.dart';
 
-abstract class ConnectionState{}
+abstract class InternetState{}
 
-class ConnectionLoading extends ConnectionState{}
-class ConnectionSuccess extends ConnectionState{}
-class ConnectionFailed extends ConnectionState{}
+class InternetLoading extends InternetState{}
+class InternetSuccess extends InternetState{}
+class InternetFailed extends InternetState{}

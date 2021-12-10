@@ -1,31 +1,31 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:equatable/equatable.dart';
 
-part 'connection_state.dart';
+part 'internet_state.dart';
 
-class ConnectionCubit extends Cubit<ConnectionState> {
+class InternetCubit extends Cubit<InternetState> {
   final Connectivity connectivity;
   late StreamSubscription connectivityStreamSubscription;
 
-  ConnectionCubit({required this.connectivity})
-      : super(ConnectionLoading()) {
-    connectivityStreamSubscription = connectivity.onConnectivityChanged.listen((event) {
-      if(event == ConnectivityResult.none){
-        emit(ConnectionSuccess());
-      }else{
-        emit(ConnectionFailed());
+  InternetCubit({required this.connectivity}) : super(InternetLoading()) {
+    connectivityStreamSubscription =
+        connectivity.onConnectivityChanged.listen((event) {
+      if (event != ConnectivityResult.none) {
+        emitInternetConnected();
+      } else {
+        emitInternetFailed();
       }
     });
-
-
   }
+
+  void emitInternetConnected() => emit(InternetSuccess());
+
+  void emitInternetFailed()=>emit(InternetFailed());
+
   @override
-  Future<void> close(){
+  Future<void> close() {
     connectivityStreamSubscription.cancel();
     return super.close();
   }
-
 }
